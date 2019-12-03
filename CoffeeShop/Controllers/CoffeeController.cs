@@ -31,7 +31,7 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string orderby, int limit)
+        public async Task<IActionResult> Get(string sort, int limit, string beanType)
         {
             using (SqlConnection conn = Connection)
             {
@@ -46,10 +46,15 @@ namespace CoffeeShop.Controllers
 
                     }
 
-                    if (orderby == "beanType")
+                    if(beanType != null)
+                    {
+                        query += $"WHERE BeanType='{beanType}' ";
+                    }
+
+                    if (sort == "beanType")
                     {
                         query += "ORDER BY BeanType ASC";
-                    } else if (orderby == "title") {
+                    } else if (sort == "title") {
                         query += "ORDER BY Title ASC";
                     }
 
